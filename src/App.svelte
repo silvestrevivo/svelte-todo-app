@@ -4,7 +4,7 @@
 
 <style lang="scss">
   h1 {
-    color: brown;
+    color: #ff3e00;
     text-align: center;
     font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
       "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
@@ -94,4 +94,44 @@
   }
 </style>
 
-<h1>This is a {name} with SvelteJS!</h1>
+<h1>This is a {name} with...</h1>
+
+<div class="container">
+  <img src={'/img/svelte-logo-horizontal.svg'} alt="svelte logo" class="logo" />
+
+  <input type="text" class="todo-input" placeholder="What needs to be done" />
+
+  <div class="todo-item">
+    <div class="todo-item-left">
+      <input type="checkbox" />
+
+      <div class="todo-item-label">title</div>
+
+      <input class="todo-item-edit" type="text" autofocus />
+
+    </div>
+    <div class="remove-item">×</div>
+  </div>
+
+  <div class="extra-container">
+    <div>
+      <label>
+        <input type="checkbox" />
+        Check All
+      </label>
+    </div>
+    <div>... items left</div>
+  </div>
+
+  <div class="extra-container">
+    <div>
+      <button>All</button>
+      <button>Active</button>
+      <button>Completed</button>
+    </div>
+
+    <div>
+      <button>Clear Completed</button>
+    </div>
+  </div>
+</div>
