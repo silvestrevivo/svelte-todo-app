@@ -1,5 +1,58 @@
 <script>
   export let name;
+
+  const ENTER_KEY = 13;
+  const ESCAPE_KEY = 27;
+
+  let newTodo = "";
+  let tempId = 4;
+  let todos = [
+    {
+      id: 1,
+      completed: false,
+      title: "Go to Store",
+      editing: false
+    },
+    {
+      id: 2,
+      completed: false,
+      title: "Finish Svelte Screencast",
+      editing: false
+    },
+    {
+      id: 3,
+      completed: false,
+      title: "Take over world",
+      editing: false
+    }
+  ];
+
+  function addTodo(event) {
+    if (event.which === ENTER_KEY) {
+      todos = todos.concat({
+        id: tempId,
+        completed: false,
+        title: newTodo,
+        editing: false
+      });
+      newTodo = "";
+      tempId = tempId + 1;
+      /*
+	  Another variation is using spread operator
+      todos = [...todos,
+        {
+          id: 4,
+          completed: false,
+          title: newTodo,
+          editing: false
+        }];
+	  */
+    }
+  }
+
+  function deleteTodo(id) {
+    todos = todos.filter(item => item.id !== id);
+  }
 </script>
 
 <style lang="scss">
@@ -99,19 +152,23 @@
 <div class="container">
   <img src={'/img/svelte-logo-horizontal.svg'} alt="svelte logo" class="logo" />
 
-  <input type="text" class="todo-input" placeholder="What needs to be done" />
+  <input
+    type="text"
+    class="todo-input"
+    placeholder="What needs to be done"
+    bind:value={newTodo}
+    on:keydown={addTodo} />
 
-  <div class="todo-item">
-    <div class="todo-item-left">
-      <input type="checkbox" />
-
-      <div class="todo-item-label">title</div>
-
-      <input class="todo-item-edit" type="text" autofocus />
-
+  {#each todos as todo}
+    <div class="todo-item">
+      <div class="todo-item-left">
+        <input type="checkbox" />
+        <div class="todo-item-label">{todo.title}</div>
+        <!-- <input class="todo-item-edit" type="text" autofocus /> -->
+      </div>
+      <div class="remove-item" on:click={() => deleteTodo(todo.id)}>×</div>
     </div>
-    <div class="remove-item">×</div>
-  </div>
+  {/each}
 
   <div class="extra-container">
     <div>
