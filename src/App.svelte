@@ -53,6 +53,12 @@
   function deleteTodo(id) {
     todos = todos.filter(item => item.id !== id);
   }
+
+  function checkAllTodos(event) {
+    todos = todos.map(item => ({ ...item, completed: event.target.checked }));
+  }
+
+  $: todosRemaining = todos.filter(item => !item.completed).length;
 </script>
 
 <style lang="scss">
@@ -162,8 +168,10 @@
   {#each todos as todo}
     <div class="todo-item">
       <div class="todo-item-left">
-        <input type="checkbox" />
-        <div class="todo-item-label">{todo.title}</div>
+        <input type="checkbox" bind:checked={todo.completed} />
+        <div class="todo-item-label" class:completed={todo.completed}>
+           {todo.title}
+        </div>
         <!-- <input class="todo-item-edit" type="text" autofocus /> -->
       </div>
       <div class="remove-item" on:click={() => deleteTodo(todo.id)}>×</div>
@@ -173,11 +181,11 @@
   <div class="extra-container">
     <div>
       <label>
-        <input type="checkbox" />
+        <input type="checkbox" on:change={checkAllTodos} />
         Check All
       </label>
     </div>
-    <div>... items left</div>
+    <div>{todosRemaining} items left</div>
   </div>
 
   <div class="extra-container">
