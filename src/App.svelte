@@ -4,6 +4,7 @@
   const ENTER_KEY = 13;
   const ESCAPE_KEY = 27;
 
+  let currentFilter = "all";
   let newTodo = "";
   let tempId = 4;
   let todos = [
@@ -50,6 +51,22 @@
     }
   }
 
+  function editTodo(todo) {
+    todo.editing = true;
+    todos = todos;
+  }
+
+  function doneEdit(todo) {
+    todo.editing = false;
+    todos = todos;
+  }
+
+  function doneEditKeyDown(todo, event) {
+    if (event.which === ENTER_KEY) {
+      doneEdit(todo);
+    }
+  }
+
   function deleteTodo(id) {
     todos = todos.filter(item => item.id !== id);
   }
@@ -58,7 +75,21 @@
     todos = todos.map(item => ({ ...item, completed: event.target.checked }));
   }
 
+  function clearCompleted() {
+    todos = todos.filter(item => !item.completed);
+  }
+
+  function updateFilter(filter) {
+    currentFilter = filter;
+  }
   $: todosRemaining = todos.filter(item => !item.completed).length;
+
+  $: filteredTodos =
+    currentFilter === "all"
+      ? todos
+      : currentFilter === "completed"
+      ? todos.filter(todo => todo.completed)
+      : todos.filter(todo => !todo.completed);
 </script>
 
 <style lang="scss">
@@ -165,14 +196,26 @@
     bind:value={newTodo}
     on:keydown={addTodo} />
 
-  {#each todos as todo}
+  {#each filteredTodos as todo}
     <div class="todo-item">
       <div class="todo-item-left">
         <input type="checkbox" bind:checked={todo.completed} />
-        <div class="todo-item-label" class:completed={todo.completed}>
-           {todo.title}
-        </div>
-        <!-- <input class="todo-item-edit" type="text" autofocus /> -->
+        {#if !todo.editing}
+          <div
+            class="todo-item-label"
+            class:completed={todo.completed}
+            on:dblclick={() => editTodo(todo)}>
+             {todo.title}
+          </div>
+        {:else}
+          <input
+            class="todo-item-edit"
+            bind:value={todo.title}
+            type="text"
+            on:blur={() => doneEdit(todo)}
+            on:keydown={() => doneEditKeyDown(todo, event)}
+            autofocus />
+        {/if}
       </div>
       <div class="remove-item" on:click={() => deleteTodo(todo.id)}>×</div>
     </div>
@@ -190,13 +233,25 @@
 
   <div class="extra-container">
     <div>
-      <button>All</button>
-      <button>Active</button>
-      <button>Completed</button>
+      <button
+        on:click={() => updateFilter('all')}
+        class:active={currentFilter === 'all'}>
+        All
+      </button>
+      <button
+        on:click={() => updateFilter('active')}
+        class:active={currentFilter === 'active'}>
+        Active
+      </button>
+      <button
+        on:click={() => updateFilter('completed')}
+        class:active={currentFilter === 'completed'}>
+        Completed
+      </button>
     </div>
 
     <div>
-      <button>Clear Completed</button>
+      <button on:click={clearCompleted}>Clear Completed</button>
     </div>
   </div>
 </div>
