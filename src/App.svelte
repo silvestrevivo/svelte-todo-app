@@ -1,5 +1,6 @@
 <script>
   export let name;
+  import { fade } from "svelte/transition";
 
   const ENTER_KEY = 13;
   const ESCAPE_KEY = 27;
@@ -198,7 +199,7 @@
 
   {#each filteredTodos as todo}
     <div class="todo-item">
-      <div class="todo-item-left">
+      <div class="todo-item-left" transition:fade>
         <input type="checkbox" bind:checked={todo.completed} />
         {#if !todo.editing}
           <div
