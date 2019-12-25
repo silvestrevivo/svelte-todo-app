@@ -1,7 +1,6 @@
 # svelte-todo-app
 
-This is a project based on the template for [Svelte](https://svelte.dev) apps, which it lives at https://github.com/sveltejs/template.
-
+SvelteJS todo application regarding the YouTube video from __Andre Madarang__, developed with [Svelte](https://svelte.dev) starter template. It lives on https://sveltejs-todo-app.netlify.com/
 
 ## Get started
 
@@ -19,40 +18,3 @@ npm run dev
 ```
 
 Navigate to [localhost:5000](http://localhost:5000). You should see your app running. Edit a component file in `src`, save it, and reload the page to see your changes.
-
-
-## Deploying to the web
-
-### With [now](https://zeit.co/now)
-
-Install `now` if you haven't already:
-
-```bash
-npm install -g now
-```
-
-Then, from within your project folder:
-
-```bash
-now
-```
-
-As an alternative, use the [Now desktop client](https://zeit.co/download) and simply drag the unzipped project folder to the taskbar icon.
-
-### With [surge](https://surge.sh/)
-
-Install `surge` if you haven't already:
-
-```bash
-npm install -g surge
-```
-
-Then, from within your project folder:
-
-```bash
-npm run build
-surge public
-```
----
-*Psst — looking for a shareable component template? Go here --> [sveltejs/component-template](https://github.com/sveltejs/component-template)*
----
